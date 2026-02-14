@@ -10,30 +10,13 @@ import SwiftUI
 struct HomeView: View {
     
     // MARK: - Properties
-    @State var news: [Article] = []
+    @StateObject var vm = ViewModel()
     
     // MARK: - Body
     var body: some View {
         VStack {
-            ForEach(news, id: \.url) { article in
+            ForEach(vm.topNews, id: \.url) { article in
                 Text(article.description ?? "")
-            }
-        }
-        .onAppear {
-            Task{
-                await fetchNews()
-            }                
-        }
-    }
-    
-    // MARK: - Methods
-    func fetchNews() async {
-        do {
-            let articles = try await NetworkManager.shared.getNews()
-            news = articles.articles
-        } catch {
-            if let error = error as?  NetworkError {
-                print(error)
             }
         }
     }
