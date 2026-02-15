@@ -10,9 +10,11 @@ import SwiftUI
 
 struct TopArticleView: View {
     
+    // MARK: - Properties
     let article: Article
     let placeholder: AnyView
     
+    // MARK: - Body
     var body: some View {
         VStack {
             if let url = article.urlToImage, let imageURL = URL(string: url) {
@@ -21,7 +23,7 @@ struct TopArticleView: View {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(height: 150)
+                            .frame(width: 260, height: 150)
                             .cornerRadius(10)
                     } else { placeholder }
                 }
