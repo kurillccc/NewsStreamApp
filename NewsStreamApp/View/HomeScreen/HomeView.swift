@@ -68,6 +68,10 @@ struct HomeView: View {
             }
             .background(Color.black.opacity(0.2))
             .navigationTitle("News")
+            .refreshable {
+                vm.fetchBottomNews()
+                vm.fetchTopNews()
+            }
         }
     }
 
