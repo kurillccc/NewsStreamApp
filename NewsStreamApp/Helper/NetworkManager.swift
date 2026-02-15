@@ -13,7 +13,7 @@ final class NetworkManager {
     static let shared = NetworkManager()
     
     private let baseURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey="
-    private let apiKey = "1a47580d61624c66802776bd25685dc9"
+    private let apiKey = "5a366c83721a4fa487096e11ebb7d3e3"
     private let decoder = JSONDecoder()
     
     // MARK: - Initializer

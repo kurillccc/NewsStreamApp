@@ -48,7 +48,7 @@ struct HomeView: View {
                                 .padding()
                         } else {
                             ForEach(vm.topNews, id: \.url) { article in
-                                TopNewsCardView(article: article, placeholder: AnyView(placeholder))
+                                TopArticleView(article: article, placeholder: AnyView(placeholder))
                             }
                         }
                     }
@@ -62,45 +62,6 @@ struct HomeView: View {
     }
     
 }
-
-struct TopNewsCardView: View {
-    
-    let article: Article
-    let placeholder: AnyView
-    
-    var body: some View {
-        VStack {
-            if let url = article.urlToImage, let imageURL = URL(string: url) {
-                AsyncImage(url: imageURL) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 150)
-                            .cornerRadius(10)
-                    } else { placeholder }
-                }
-            } else { placeholder }
-            
-            VStack(alignment: .leading) {
-                Text(article.title)
-                    .titleFont()
-                
-                Spacer()
-                
-                Text(article.publishedAt.convertDate())
-                    .descriptionFont()
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .frame(width: 260, height: 260)
-        .padding(10)
-        .background(.background)
-        .cornerRadius(10)
-    }
-    
-}
-
 
 #Preview {
     HomeView()
