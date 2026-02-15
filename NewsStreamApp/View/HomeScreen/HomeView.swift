@@ -8,59 +8,88 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     // MARK: - Properties
     @StateObject private var vm = ViewModel()
-    
-    private var placeholder: some View {
-        ZStack {
-            Rectangle()
-                .frame(height: 150)
-                .foregroundStyle(.secondary)
-                .opacity(0.3)
-                .cornerRadius(10)
-            
-            Image(systemName: "photo")
-                .resizable()
-                .foregroundStyle(.secondary)
-                .scaledToFit()
-                .frame(height: 50)
-        }
-    }
-    
+
+    private let topPlaceholder: AnyView = AnyView(PlaceholderView(width: 260, height: 150))
+    private let bottomPlaceholder: AnyView = AnyView(PlaceholderView(width: 120, height: 120))
+
     // MARK: - Body
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
-                
-                Text("Top News")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading)
-                    .padding(.top)
-                
+                // MARK: - Top news
+                sectionHeader("Top News")
+
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: 12) {
                         if vm.topNews.isEmpty {
-                            Text("Нет данных")
-                                .foregroundStyle(.secondary)
-                                .padding()
+                            emptyDataView()
                         } else {
                             ForEach(vm.topNews, id: \.url) { article in
-                                TopArticleView(article: article, placeholder: AnyView(placeholder))
+                                ArticleView(
+                                    article: article,
+                                    placeholder: topPlaceholder,
+                                    imageWidth: 260,
+                                    imageHeight: 150,
+                                    width: 260,
+                                    height: 260
+                                )
                             }
                         }
                     }
                     .padding(.horizontal)
                 }
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 8)
 
+                // MARK: - Bottom news
+                sectionHeader("Bottom news")
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        if vm.bottomNews.isEmpty {
+                            emptyDataView()
+                        } else {
+                            ForEach(vm.bottomNews, id: \.url) { article in
+                                ArticleView(
+                                    article: article,
+                                    placeholder: bottomPlaceholder,
+                                    imageWidth: 120,
+                                    imageHeight: 120,
+                                    width: 120,
+                                    height: 240
+                                )
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 8)
             }
-            .background(.black.opacity(0.2))
+            .background(Color.black.opacity(0.2))
             .navigationTitle("News")
+            .refreshable {
+                vm.fetchBottomNews()
+                vm.fetchTopNews()
+            }
         }
     }
-    
+
+    // MARK: - Small helpers
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.title)
+            .fontWeight(.bold)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading)
+            .padding(.top)
+    }
+
+    private func emptyDataView() -> some View {
+        Text("Нет данных")
+            .foregroundStyle(.secondary)
+            .padding()
+    }
 }
 
 #Preview {

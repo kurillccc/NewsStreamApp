@@ -1,5 +1,5 @@
 //
-//  TopArticleView.swift
+//  ArticleView.swift
 //  NewsStreamApp
 //
 //  Created by Кирилл on 15.02.2026.
@@ -8,11 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct TopArticleView: View {
+struct ArticleView: View {
     
     // MARK: - Properties
     let article: Article
     let placeholder: AnyView
+    
+    let imageWidth: CGFloat
+    let imageHeight: CGFloat
+    
+    let width: CGFloat
+    let height: CGFloat
+
     
     // MARK: - Body
     var body: some View {
@@ -23,7 +30,7 @@ struct TopArticleView: View {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 260, height: 150)
+                            .frame(width: imageWidth, height: imageHeight)
                             .cornerRadius(10)
                     } else { placeholder }
                 }
@@ -40,7 +47,7 @@ struct TopArticleView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(width: 260, height: 260)
+        .frame(width: width, height: height)
         .padding(10)
         .background(.background)
         .cornerRadius(10)
