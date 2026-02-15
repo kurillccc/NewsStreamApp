@@ -22,7 +22,7 @@ struct HomeView: View {
                 sectionHeader("Top News")
 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
+                    HStack(spacing: 12) {
                         if vm.topNews.isEmpty {
                             emptyDataView()
                         } else {
@@ -40,16 +40,17 @@ struct HomeView: View {
                     }
                     .padding(.horizontal)
                 }
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 8)
 
                 // MARK: - Bottom news
                 sectionHeader("Bottom news")
 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        if vm.topNews.isEmpty {
+                    HStack(spacing: 12) {
+                        if vm.bottomNews.isEmpty {
                             emptyDataView()
                         } else {
-                            ForEach(vm.topNews, id: \.url) { article in
+                            ForEach(vm.bottomNews, id: \.url) { article in
                                 ArticleView(
                                     article: article,
                                     placeholder: bottomPlaceholder,
@@ -63,6 +64,7 @@ struct HomeView: View {
                     }
                     .padding(.horizontal)
                 }
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 8)
             }
             .background(Color.black.opacity(0.2))
             .navigationTitle("News")
