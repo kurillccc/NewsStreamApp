@@ -12,6 +12,22 @@ struct HomeView: View {
     // MARK: - Properties
     @StateObject private var vm = ViewModel()
     
+    private var placeholder: some View {
+        ZStack {
+            Rectangle()
+                .frame(height: 150)
+                .foregroundStyle(.secondary)
+                .opacity(0.3)
+                .cornerRadius(10)
+            
+            Image(systemName: "photo")
+                .resizable()
+                .foregroundStyle(.secondary)
+                .scaledToFit()
+                .frame(height: 50)
+        }
+    }
+    
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -32,48 +48,7 @@ struct HomeView: View {
                                 .padding()
                         } else {
                             ForEach(vm.topNews, id: \.url) { article in
-                                VStack {
-                                    if let url = article.urlToImage, let imageURL = URL(string: url) {
-                                        AsyncImage(url: imageURL) { phase in
-                                            if let image = phase.image {
-                                                image
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(height: 150)
-                                                    .cornerRadius(10)
-                                            }
-                                        }
-                                    } else {
-                                        ZStack {
-                                            Rectangle()
-                                                .frame(height: 150)
-                                                .foregroundStyle(.secondary)
-                                                .opacity(0.3)
-                                                .cornerRadius(10)
-                                            
-                                            Image(systemName: "photo")
-                                                .resizable()
-                                                .foregroundStyle(.secondary)
-                                                .scaledToFit()
-                                                .frame(height: 50)
-                                        }
-                                    }
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text(article.title)
-                                            .titleFont()
-                                        
-                                        Spacer()
-                                        
-                                        Text(article.publishedAt.convertDate())
-                                            .descriptionFont()
-                                    }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                }
-                                .frame(width: 260, height: 260)
-                                .padding(10)
-                                .background(.white)
-                                .cornerRadius(10)
+                                TopArticleView(article: article, placeholder: AnyView(placeholder))
                             }
                         }
                     }
