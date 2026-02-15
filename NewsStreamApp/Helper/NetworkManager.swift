@@ -12,7 +12,6 @@ final class NetworkManager {
     // MARK: - Properties
     static let shared = NetworkManager()
     
-    private let baseURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey="
     private let apiKey = "5a366c83721a4fa487096e11ebb7d3e3"
     private let decoder = JSONDecoder()
     
@@ -22,9 +21,9 @@ final class NetworkManager {
     }
     
     // MARK: - Methods
-    func getNews() async throws -> News {
+    func getNews(urlString: String) async throws -> News {
         
-        guard let url = URL(string: baseURL + apiKey)  else { throw NetworkError.invalidURL }
+        guard let url = URL(string: urlString + apiKey)  else { throw NetworkError.invalidURL }
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
