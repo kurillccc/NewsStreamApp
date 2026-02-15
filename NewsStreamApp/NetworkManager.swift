@@ -11,7 +11,9 @@ final class NetworkManager {
     
     // MARK: - Properties
     static let shared = NetworkManager()
-    private let urlNews = "https://newsapi.org/v2/everything?q=tesla&from=2026-01-14&sortBy=publishedAt&apiKey=1a47580d61624c66802776bd25685dc9"
+    
+    private let baseURL = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey="
+    private let apiKey = "1a47580d61624c66802776bd25685dc9"
     private let decoder = JSONDecoder()
     
     // MARK: - Initializer
@@ -22,8 +24,10 @@ final class NetworkManager {
     // MARK: - Methods
     func getNews() async throws -> News {
         
-        guard let url = URL(string: urlNews) else { throw NetworkError.invalidURL }
+        guard let url = URL(string: baseURL + apiKey)  else { throw NetworkError.invalidURL }
+        
         let (data, response) = try await URLSession.shared.data(from: url)
+        
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw NetworkError.invalidResponse
         }
