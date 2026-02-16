@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     // MARK: - Properties
     @StateObject private var vm = ViewModel()
 
-    private let topPlaceholder: AnyView = AnyView(PlaceholderView(width: 260, height: 150))
-    private let bottomPlaceholder: AnyView = AnyView(PlaceholderView(width: 120, height: 120))
+    private let topPlaceholder: AnyView = AnyView(PlaceholderHomeView(width: 260, height: 150))
+    private let bottomPlaceholder: AnyView = AnyView(PlaceholderHomeView(width: 120, height: 120))
 
     // MARK: - Body
     var body: some View {
@@ -27,14 +28,19 @@ struct HomeView: View {
                             emptyDataView()
                         } else {
                             ForEach(vm.topNews, id: \.url) { article in
-                                ArticleView(
-                                    article: article,
-                                    placeholder: topPlaceholder,
-                                    imageWidth: 260,
-                                    imageHeight: 150,
-                                    width: 260,
-                                    height: 260
-                                )
+                                
+                                NavigationLink(
+                                    destination: DetailView(article: article)) {
+                                    ArticleView(
+                                        article: article,
+                                        placeholder: topPlaceholder,
+                                        imageWidth: 260,
+                                        imageHeight: 150,
+                                        width: 260,
+                                        height: 260
+                                    )
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -51,14 +57,18 @@ struct HomeView: View {
                             emptyDataView()
                         } else {
                             ForEach(vm.bottomNews, id: \.url) { article in
-                                ArticleView(
-                                    article: article,
-                                    placeholder: bottomPlaceholder,
-                                    imageWidth: 120,
-                                    imageHeight: 120,
-                                    width: 120,
-                                    height: 240
-                                )
+                                NavigationLink(
+                                    destination: DetailView(article: article)) {
+                                        ArticleView(
+                                            article: article,
+                                            placeholder: bottomPlaceholder,
+                                            imageWidth: 120,
+                                            imageHeight: 120,
+                                            width: 120,
+                                            height: 240
+                                        )
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -90,6 +100,7 @@ struct HomeView: View {
             .foregroundStyle(.secondary)
             .padding()
     }
+    
 }
 
 #Preview {
