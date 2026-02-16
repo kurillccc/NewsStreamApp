@@ -15,6 +15,7 @@ final class ViewModel: ObservableObject {
     @Published var topNews: [Article] = []
     @Published var bottomNews: [Article] = []
     
+    // MARK: - init
     init() {
         fetchTopNews()
         fetchBottomNews()
