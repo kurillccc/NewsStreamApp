@@ -5,14 +5,15 @@
 //  Created by Кирилл on 15.02.2026.
 //
 
-import Foundation
 import SwiftUI
 
-struct PlaceholderView: View {
+struct PlaceholderHomeView: View {
     
+    // MARK: - Properties
     let width: CGFloat
     let height: CGFloat
     
+    // MARK: - Body
     var body: some View {
         ZStack {
             Rectangle()
